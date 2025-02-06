@@ -60,9 +60,75 @@ export function getAllMusics() {
 }
 
 export function generateMusicItemUsingTemplate({ id, artLink, title, signature, audioLink }) {
-  // Buatlah music item element dengan memanfaatkan <template> pada HTML.
+  const article = document.createElement("article");
+  article.classList.add("music-list__item")
+  article.setAttribute("data-musicid", id);
+
+  const card  = document.createElement("div");
+  card.className = "card"
+  article.appendChild(card);
+
+  const cardImageContainer = document.createElement("div");
+  cardImageContainer.className = "card-image";
+  card.appendChild(cardImageContainer);
+
+  const image = document.createElement("img");
+  image.src = artLink;
+  image.alt = title;
+
+  cardImageContainer.appendChild(image);
+
+  const cardBodyContainer = document.createElement("div");
+  cardBodyContainer.className = "card-body";
+  card.appendChild(cardBodyContainer);
+
+  const titleH3 = document.createElement("h3");
+  titleH3.className = "card-body__title";
+  titleH3.innerText = title;
+  cardBodyContainer.appendChild(titleH3);
+
+  const musicSignature = document.createElement("div");
+  musicSignature.className = "card-body__copyright";
+  musicSignature.innerHTML = signature
+  cardBodyContainer.appendChild(musicSignature);
+
+  const audio = document.createElement("audio");
+  audio.className = "music-list__item__audio";
+  audio.controls = true;
+  audio.src = audioLink;
+  audio.type = "audio/mp3";
+  audio.preload = "none";
+  cardBodyContainer.appendChild(audio);
+
+  return article;
 }
 
 export function generateMusicItemUsingInnerHTML({ id, artLink, title, signature, audioLink }) {
-  // Buatlah music item element dalam bentuk string.
+  return `
+<article class="music-list__item" data-musicid="${id}">
+  <div class="card">
+    <div class="card-image">
+      <img
+        id="musicImage"
+        src="${artLink}"
+        alt="${title}"
+      />
+    </div>
+    <div class="card-body">
+      <h3 id="musicTitle" class="card-body__title">${title}</h3>
+      <div id="musicSignature" class="card-body__copyright">
+        ${signature}
+      </div>
+      <audio
+        id="musicAudio"
+        class="music-list__item__audio"
+        controls
+        src="${audioLink}"
+        type="audio/mp3"
+        preload="none"
+      ></audio>
+    </div>
+  </div>
+</article>
+`
 }
